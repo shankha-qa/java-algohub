@@ -249,14 +249,13 @@ public class Strings {
             //Acquire
             while(i < s.length() - 1 && matchCount < desiredMatchCount) {
                 i++;
-
-                char ch1 = s.charAt(i);
-                if (map1.containsKey(ch1))
-                    map1.put(ch1, map1.get(ch1) + 1);
+                char chToAquire = s.charAt(i);
+                if (map1.containsKey(chToAquire))
+                    map1.put(chToAquire, map1.get(chToAquire) + 1);
                 else
-                    map1.put(ch1, 1);
+                    map1.put(chToAquire, 1);
 
-                if(map1.getOrDefault(ch1, 0) <= (map2.getOrDefault(ch1, 0)))
+                if(map1.getOrDefault(chToAquire, 0) <= (map2.getOrDefault(chToAquire, 0)))
                     matchCount++;
 
                 f1 = true;
@@ -264,12 +263,11 @@ public class Strings {
 
             // Collect Answer and Release
             while(j < i && matchCount == desiredMatchCount) {
-                String pans = s.substring(j+1, i+1);
-                if (ans.length() == 0 || pans.length() < ans.length())
-                    ans = pans;
+                String pAns = s.substring(j+1, i+1);
+                if (ans.length() == 0 || pAns.length() < ans.length())
+                    ans = pAns;
 
                 j++;
-
                 char chToRelease = s.charAt(j);
                 if(map1.get(chToRelease) == 1)
                     map1.remove(chToRelease);
