@@ -119,6 +119,40 @@ public class Hashmaps {
         }
     }
 
+    //First unique character in an Array
+    class Pair{
+        int index;
+        int freq;
+        Pair(int index, int freq){
+            this.index = index;
+            this.freq = freq;
+        }
+    }
+
+    public int findFirstUniqueChar(String s) {
+        HashMap<Character, Pair> map = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char charac = s.charAt(i);
+            if (!map.containsKey(charac)) {
+                Pair p = new Pair(i, 1);
+                map.put(charac, p);
+            } else {
+                Pair p = map.get(charac);
+                map.put(charac, new Pair(p.index, p.freq + 1));
+            }
+        }
+
+        // Find the first unique character by checking the smallest index
+        int firstIndex = Integer.MAX_VALUE;
+        for (Pair p : map.values()) {
+            if (p.freq == 1) {
+                firstIndex = Math.min(firstIndex, p.index);
+            }
+        }
+        return firstIndex == Integer.MAX_VALUE ? -1 : firstIndex;
+    }
+
     // Find out and Print longest Consecutive Sequence from an Integer Array
     public ArrayList<Integer> findLongestConsecutiveSequenceOfElements(int[] array) {
         HashMap<Integer, Boolean> hmStartingOfSeq = new HashMap<>();
@@ -163,12 +197,10 @@ public class Hashmaps {
                 ans += hm.get(remainingSum);
             }
 
-            if(hm.containsKey(sum)){
+            if(hm.containsKey(sum))
                 hm.put(sum, hm.get(sum) + 1);
-            }
-            else {
+            else
                 hm.put(sum, 1);
-            }
         }
         return ans;
     }
@@ -181,7 +213,7 @@ public class Hashmaps {
         HashMap<Integer, Integer> hm = new HashMap<>();      // your original freq map
         hm.put(0, 1);
 
-        // 🔽 Added: an index map to find subarrays
+        // Added: an index map to find subarrays
         HashMap<Integer, ArrayList<Integer>> indexMap = new HashMap<>();
         indexMap.put(0, new ArrayList<>(Arrays.asList(-1)));
 
@@ -189,61 +221,30 @@ public class Hashmaps {
             sum += arr[i];
 
             int remainingSum = sum - target;
-
             if (hm.containsKey(remainingSum)) {
                 ans += hm.get(remainingSum);
-                // 🔽 print subarrays using indexMap
+                // print subarrays using indexMap
                 for (int startIndex : indexMap.get(remainingSum)) {
                     System.out.println("Subarray: [" + (startIndex + 1) + ", " + i + "]");
                 }
             }
 
-            if(hm.containsKey(sum)){
+            if(hm.containsKey(sum))
                 hm.put(sum, hm.get(sum) + 1);
-            }
-            else {
+            else
                 hm.put(sum, 1);
+
+            // index map tracking (added)
+            if (indexMap.containsKey(sum)) {
+                indexMap.get(sum).add(i);
+            } else {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(i);
+                indexMap.put(sum, list);
             }
-            // 🔽 index map tracking (added)
-            indexMap.putIfAbsent(sum, new ArrayList<>());
-            indexMap.get(sum).add(i);
         }
 
         return ans;
-    }
-
-    //First unique character in an Array
-    class Pair{
-        int index;
-        int freq;
-        Pair(int index, int freq){
-            this.index = index;
-            this.freq = freq;
-        }
-    }
-
-    public int findFirstUniqueChar(String s) {
-        HashMap<Character, Pair> map = new HashMap<>();
-
-        for (int i = 0; i < s.length(); i++) {
-            char charac = s.charAt(i);
-            if (!map.containsKey(charac)) {
-                Pair p = new Pair(i, 1);
-                map.put(charac, p);
-            } else {
-                Pair p = map.get(charac);
-                map.put(charac, new Pair(p.index, p.freq + 1));
-            }
-        }
-
-        // Find the first unique character by checking the smallest index
-        int firstIndex = Integer.MAX_VALUE;
-        for (Pair p : map.values()) {
-            if (p.freq == 1) {
-                firstIndex = Math.min(firstIndex, p.index);
-            }
-        }
-        return firstIndex == Integer.MAX_VALUE ? -1 : firstIndex;
     }
 
 }

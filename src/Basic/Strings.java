@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Strings {
 
-    // Print all the substrings
+    // Print all the substrings - Brute force
     public void printSubstrings(String str) {
         String subString = "";
         for(int i = 0; i < str.length(); i++) {
@@ -70,7 +70,6 @@ public class Strings {
     public boolean isChar(char ch){
         return Character.isLetterOrDigit(ch);
     }
-
 
     // Print all the substrings, which are palindromes
     public void printPalindromeSubstrings(String str) {
