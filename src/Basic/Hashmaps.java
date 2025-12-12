@@ -3,6 +3,7 @@ package Basic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class Hashmaps {
 
@@ -47,6 +48,49 @@ public class Hashmaps {
             }
         }
         System.out.println(key + "'s value is : " + maxCount +", which is highest");
+    }
+
+    //Majority Element
+    public List<Integer> majorityElement(int[] nums) {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        List<Integer> result = new ArrayList<>();
+        for( int num : nums){
+            if(map.containsKey(num)){
+                map.put(num, map.get(num) + 1);
+            }
+            else {
+                map.put(num, 1);
+            }
+        }
+
+        int ref = nums.length / 3;
+
+        for(int key : map.keySet()){
+            if(map.get(key) > ref)
+                result.add(key);
+        }
+
+        return result;
+    }
+
+    //Two Sum
+    public int[] twoSum(int[] nums, int target) {
+        HashMap<Integer,Integer> comp = new HashMap<>();
+        int[] result = new int[2];
+        for(int i = 0; i < nums.length; i++){
+            int val1 = nums[i];
+            int val2 = target - val1;
+            if(comp.containsKey(val2)){
+                result[0] = comp.get(val2);
+                result[1] = i;
+                System.out.println("Output: [" + result[0] + "," + result[1] + "]");
+                return result;
+            }
+            else {
+                comp.put(val1, i);
+            }
+        }
+        return result;
     }
 
     // Intersection Type 1 - Print only one in case of multiple match
@@ -166,6 +210,40 @@ public class Hashmaps {
         }
 
         return ans;
+    }
+
+    //First unique character in an Array
+    class Pair{
+        int index;
+        int freq;
+        Pair(int index, int freq){
+            this.index = index;
+            this.freq = freq;
+        }
+    }
+
+    public int findFirstUniqueChar(String s) {
+        HashMap<Character, Pair> map = new HashMap<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            char charac = s.charAt(i);
+            if (!map.containsKey(charac)) {
+                Pair p = new Pair(i, 1);
+                map.put(charac, p);
+            } else {
+                Pair p = map.get(charac);
+                map.put(charac, new Pair(p.index, p.freq + 1));
+            }
+        }
+
+        // Find the first unique character by checking the smallest index
+        int firstIndex = Integer.MAX_VALUE;
+        for (Pair p : map.values()) {
+            if (p.freq == 1) {
+                firstIndex = Math.min(firstIndex, p.index);
+            }
+        }
+        return firstIndex == Integer.MAX_VALUE ? -1 : firstIndex;
     }
 
 }
