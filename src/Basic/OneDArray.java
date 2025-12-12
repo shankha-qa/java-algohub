@@ -1,5 +1,9 @@
 package Basic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class OneDArray {
 
     //Span of an Array
@@ -319,6 +323,156 @@ public class OneDArray {
 
     }
 
+    //3 Sums
+    public List<List<Integer>> threeSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        for(int i = 0; i <= nums.length - 3; i++){
+            if(i > 0 && nums[i] == nums[i-1])
+                continue;
+            int left = i + 1;
+            int right = nums.length - 1;
+            while(left < right) {
+                if(nums[i] + nums[left] + nums[right] == target){
+                    result.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    left ++;
+                    right --;
+                    while ( left < right && nums[left - 1] == nums[left]){
+                        left ++;
+                    }
+                    while ( left < right && nums[right] == nums[right + 1]){
+                        right --;
+                    }
+                }
+                else if (nums[i] + nums[left] + nums[right] < target){
+                    left ++;
+                }
+                else if (nums[i] + nums[left] + nums[right] > target){
+                    right --;
+                }
+            }
+        }
+        return result;
+    }
+
+    //3 Sums - variation. Where sum is closest to the target, return the closest sum
+    public int threeSumClosest(int[] nums, int target) {
+        Arrays.sort(nums);
+        int closest = nums[0] + nums[1] + nums[2];
+        for(int i = 0; i <= nums.length - 2; i++){
+            int left = i + 1;
+            int right = nums.length - 1;
+            while(left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if(Math.abs(sum - target) < Math.abs(closest - target)){
+                    closest = sum;
+                }
+
+                if(sum == target){
+                    return target;
+                }
+                else if (sum < target){
+                    left ++;
+                }
+                else if (sum > target){
+                    right --;
+                }
+            }
+        }
+        return closest;
+    }
+
+    //4 sums
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        for(int i = 0; i <= nums.length -4; i++){
+            if(i > 0 && nums[i] == nums[i-1])
+                continue;
+            for(int k = i + 1; k <= nums.length - 3; k++){
+                if(k > i + 1 && nums[k] == nums[k - 1])
+                    continue;
+
+                int left = k + 1;
+                int right = nums.length - 1;
+
+                while(left < right) {
+                    long sum = (long) nums[i] + nums[k] + nums[left] + nums[right];
+
+                    if(sum == target){
+                        result.add(Arrays.asList(nums[i], nums[k], nums[left], nums[right]));
+                        left++;
+                        right--;
+
+                        while(left < right && nums[left] == nums[left - 1]) left++;
+                        while(left < right && nums[right] == nums[right + 1]) right--;
+
+                    } else if(sum < target) {
+                        left++;
+                    } else {
+                        right--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    //Find missing number from consecutive list of numbers
+    public int missingNumber(int[] nums) {
+        int len = nums.length;
+        int expectedSum = (len * (len + 1)) / 2;
+        int actualSum = 0;
+        for(int num : nums){
+            actualSum += num;
+        }
+        return (expectedSum - actualSum);
+    }
+
+    //Square of a sorted array
+    public int[] sortedSquares(int[] nums) {
+        int[] result = new int[nums.length];
+        int left = 0;
+        int right = nums.length - 1;
+        int pos = result.length - 1;
+
+        while(left <= right){
+            int leftSqrVal = nums[left] * nums[left];
+            int rightSqrVal = nums[right] * nums[right];
+
+            if (leftSqrVal > rightSqrVal) {
+                result[pos] = leftSqrVal;
+                left ++;
+            }
+            else {
+                result[pos] = rightSqrVal;
+                right --;
+            }
+            pos --;
+        }
+        return result;
+    }
+
+    // Product of all array elements, except self
+    public int[] productExceptSelf(int[] nums) {
+        int[] pre = new int[nums.length];
+        pre[0] = 1;
+        for (int i = 1; i <= pre.length - 1 ; i++){
+            pre[i] = pre[i - 1] * nums[i - 1];
+        }
+
+        int[] post = new int[nums.length];
+        post[post.length - 1] = 1;
+        for (int i = post.length - 2; i >= 0 ; i--){
+            post[i] = post[i + 1] * nums[i + 1];
+        }
+
+        for (int i = 0; i <= nums.length - 1 ; i++){
+            nums[i] = pre[i] * post[i];
+        }
+
+        return nums;
+    }
 }
 
 

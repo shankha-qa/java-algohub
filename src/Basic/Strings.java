@@ -1,5 +1,10 @@
 package Basic;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 public class Strings {
 
     // Print all the substrings
@@ -29,6 +34,43 @@ public class Strings {
         }
         return true;
     }
+
+    // Valid palindrome - ignore special chars and case
+    public boolean isItPalindrome(String s) {
+
+        int left = 0;
+        int right = s.length() - 1;
+
+        while (left < right) {
+            char leftChar = s.charAt(left);
+            char rightChar = s.charAt(right);
+            if (!isChar(leftChar)) {
+                left ++;
+            }
+            else if (!isChar(rightChar)) {
+                right --;
+            }
+            else {
+                if (getLower(leftChar) == getLower(rightChar)) {
+                    left ++;
+                    right --;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public char getLower(char ch){
+        return Character.toLowerCase(ch);
+    }
+
+    public boolean isChar(char ch){
+        return Character.isLetterOrDigit(ch);
+    }
+
 
     // Print all the substrings, which are palindromes
     public void printPalindromeSubstrings(String str) {
@@ -153,6 +195,98 @@ public class Strings {
 
         System.out.print("Swapped to : " + a + " and : " + b);
 
+    }
+
+    //    Group Anagrams
+    //    Input: strs = ["eat","tea","tan","ate","nat","bat"]
+    //    Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+    public List<List<String>> groupAnagrams(String[] strs) {
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for(String s : strs) {
+            char[] charArray = s.toCharArray();
+            Arrays.sort(charArray);
+            String sortedS = new String(charArray);
+
+            if(!map.containsKey(sortedS)) {
+                map.put(sortedS, new ArrayList<>());
+                map.get(sortedS).add(s);
+            }
+            else {
+                map.get(sortedS).add(s);
+            }
+
+        }
+        return new ArrayList<>(map.values());
+    }
+
+    //    Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that
+    //    every character in t (including duplicates) is included in the window. If there is no such substring, return the
+    //    empty string "".
+    public String minWindow(String s, String t) {
+        String ans = "";
+        HashMap<Character, Integer> map2 = new HashMap<>();
+        for (int i = 0; i < t.length(); i++) {
+            char ch2 = t.charAt(i);
+            if (map2.containsKey(ch2))
+                map2.put(ch2, map2.get(ch2) + 1);
+            else
+                map2.put(ch2, 1);
+        }
+
+        int matchCount = 0;
+        int desiredMatchCount = t.length();
+
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        int i = -1;
+        int j = -1;
+
+        while(true){
+
+            boolean f1 = false;
+            boolean f2 = false;
+
+            //Acquire
+            while(i < s.length() - 1 && matchCount < desiredMatchCount) {
+                i++;
+
+                char ch1 = s.charAt(i);
+                if (map1.containsKey(ch1))
+                    map1.put(ch1, map1.get(ch1) + 1);
+                else
+                    map1.put(ch1, 1);
+
+                if(map1.getOrDefault(ch1, 0) <= (map2.getOrDefault(ch1, 0)))
+                    matchCount++;
+
+                f1 = true;
+            }
+
+            // Collect Answer and Release
+            while(j < i && matchCount == desiredMatchCount) {
+                String pans = s.substring(j+1, i+1);
+                if (ans.length() == 0 || pans.length() < ans.length())
+                    ans = pans;
+
+                j++;
+
+                char chToRelease = s.charAt(j);
+                if(map1.get(chToRelease) == 1)
+                    map1.remove(chToRelease);
+                else
+                    map1.put(chToRelease, map1.get(chToRelease) - 1);
+
+                if(map1.getOrDefault(chToRelease, 0) < (map2.getOrDefault(chToRelease, 0)))
+                    matchCount--;
+
+                f2 = true;
+            }
+
+            if(!f1 && !f2)
+                break;
+        }
+
+        return ans;
     }
 
 }
