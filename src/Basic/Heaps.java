@@ -36,6 +36,7 @@ public class Heaps {
         }
     }
 
+    // Merge K number of Sorted Lists into a single one
     public static class Pair implements Comparable<Pair> {
         int li;
         int di;
@@ -50,7 +51,6 @@ public class Heaps {
         }
     }
 
-    // Merge K number of Sorted Lists into a single one
     public ArrayList<Integer> mergeKSortedLists(ArrayList<ArrayList<Integer>> lists) {
         ArrayList<Integer> result = new ArrayList<>();
         PriorityQueue<Pair> pq = new PriorityQueue<>();

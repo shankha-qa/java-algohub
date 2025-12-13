@@ -206,26 +206,6 @@ public class Stacks {
         }
     }
 
-    public int precedence(char operator) {
-        if (operator == '+' || operator == '-')
-            return 1;
-        else if (operator == '*' || operator == '/')
-            return 2;
-        else
-            return 0;
-    }
-
-    public int operation(int val1, int val2, char operator){
-        if(operator == '+')
-            return (val1 + val2);
-        else if (operator == '-')
-            return (val1 - val2);
-        else if (operator == '*')
-            return (val1 * val2);
-        else
-            return (val1 / val2);
-    }
-
     //Infix Evaluation
     public int infixEvaluation(String expression){
         Stack<Integer> operands = new Stack<>();
@@ -248,7 +228,7 @@ public class Stacks {
                 operators.pop();
             }
             else if (ch =='+' || ch =='-' || ch =='*' || ch =='/') {
-                while (operators.size() > 0 && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())) {
+                while (!operators.isEmpty() && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())) {
                     char operator = operators.pop();
                     int val2 = operands.pop();
                     int val1 = operands.pop();
@@ -266,6 +246,27 @@ public class Stacks {
         }
         return operands.peek();
     }
+
+    public int precedence(char operator) {
+        if (operator == '+' || operator == '-')
+            return 1;
+        else if (operator == '*' || operator == '/')
+            return 2;
+        else
+            return 0;
+    }
+
+    public int operation(int val1, int val2, char operator){
+        if(operator == '+')
+            return (val1 + val2);
+        else if (operator == '-')
+            return (val1 - val2);
+        else if (operator == '*')
+            return (val1 * val2);
+        else
+            return (val1 / val2);
+    }
+
 
     //Infix Conversion
     public void infixConversion(String expression){
@@ -299,7 +300,7 @@ public class Stacks {
                 operators.pop();
             }
             else if (ch =='+' || ch =='-' || ch =='*' || ch =='/') {
-                while(operators.size() > 0 && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())){
+                while(!operators.isEmpty() && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())){
                     char operator = operators.pop();
 
                     String val2 = prefix.pop();
@@ -427,10 +428,13 @@ public class Stacks {
     // knows him [1]. Find out that person
     public void findCelebrity (int[][] matrix) {
         Stack<Integer> st = new Stack<>();
+        // push all people
         for (int i = 0; i <= matrix.length - 1; i++) {
             st.push(i);
         }
-        while (st.size() >=2) {
+
+        // eliminate non-celebrities
+        while (st.size() > 1) {
             int people1 = st.pop();
             int people2 = st.pop();
             if (matrix[people1][people2] == 1) {
@@ -438,11 +442,15 @@ public class Stacks {
                 st.push(people2);
             }
             else {
-                //people2 does know people1
+                //people2 does not know people1
                 st.push(people1);
             }
         }
+
+        // possible celebrity
         int pot = st.pop();
+
+        //Verification
         for (int i = 0; i < matrix.length; i++) {
             if(i != pot) {
                 if ((matrix[i][pot] == 0 || matrix[pot][i] == 1)) {
