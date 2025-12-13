@@ -27,16 +27,16 @@ public class Searching {
             int mid = (low + high) / 2;
             if(array[mid] == target)
                 return mid;
-            else if (array[low] < array[mid]) {
-                if( target > array[low] && target < array[mid]){
+            else if (array[low] <= array[mid]) {
+                if( target >= array[low] && target < array[mid]){
                     high = mid - 1;
                 }
                 else {
                     low = mid + 1;
                 }
             }
-            else if (array[mid] < array[high]) {
-                if( target > array[mid] && target < array[high]){
+            else {
+                if( target > array[mid] && target <= array[high]){
                     low = mid + 1;
                 }
                 else {

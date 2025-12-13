@@ -1,9 +1,6 @@
 package Basic;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Hashmaps {
 
@@ -71,6 +68,27 @@ public class Hashmaps {
         }
 
         return result;
+    }
+
+    //Top K frequent words - Sort by frequency and the lexicographically
+    public List<String> topKFrequent(String[] words, int k) {
+        HashMap<String, Integer> map = new HashMap<>();
+        for(String word : words){
+            if(map.containsKey(word))
+                map.put(word, map.get(word) + 1);
+            else
+                map.put(word, 1);
+        }
+
+        ArrayList<String> result = new ArrayList<>(map.keySet());
+        Collections.sort(result, (a, b) -> {
+            if (!map.get(a).equals(map.get(b)))
+                return map.get(b) - map.get(a); // higher freq first
+            else
+                return a.compareTo(b); // lexicographical order
+        });
+
+        return result.subList(0, k);
     }
 
     //Two Sum

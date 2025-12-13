@@ -76,4 +76,53 @@ public class Sorting {
         return result;
     }
 
+    //Median of 2 sorted arrays
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+
+        //Making nums1[] smaller, so that segregation always happens including nums2[]
+        if(nums1.length > nums2.length){
+            int[] temp = nums1;
+            nums1 = nums2;
+            nums2 = temp;
+        }
+
+        double median = 0.0; //result
+
+        int lo = 0;
+        int hi = nums1.length;
+        int totalElement = nums1.length + nums2.length;
+        while (lo <= hi){
+            int num1left = (lo + hi) / 2;
+            int num2left = (totalElement + 1) / 2 - num1left;
+
+            int num1lm1 = (num1left == 0) ? Integer.MIN_VALUE : nums1[num1left-1];
+            int num2lm1 = (num2left == 0) ? Integer.MIN_VALUE : nums2[num2left-1];
+            int num1l = (num1left == nums1.length) ? Integer.MAX_VALUE : nums1[num1left];
+            int num2l = (num2left == nums2.length) ? Integer.MAX_VALUE : nums2[num2left];
+
+            //Valid Segregation
+            if ((num2l >= num1lm1) && (num1l >= num2lm1)) {
+                if (totalElement % 2 == 0) {
+                    int lMax = Math.max(num1lm1,num2lm1);
+                    int rMin = Math.min(num1l,num2l);
+                    median = (lMax + rMin ) / 2.0;
+                }
+                else {
+                    int lMax = Math.max(num1lm1,num2lm1);
+                    median = lMax;
+                }
+                return median;
+            }
+            // More elements should have been picked from nums1's left part
+            else if(num2lm1 > num1l){
+                lo = num1left + 1;
+            }
+            // More elements should have been picked from nums2's left part
+            else if(num1lm1 > num2l){
+                hi = num1left - 1;
+            }
+        }
+        return 0;
+    }
+
 }

@@ -196,6 +196,30 @@ public class Strings {
 
     }
 
+    //Valid anagrams ?
+    public boolean isAnagram(String s, String t) {
+        HashMap<Character, Integer> map1 = new HashMap<>();
+        for(char cs : s.toCharArray()){
+            if(map1.containsKey(cs))
+                map1.put(cs, map1.get(cs) + 1);
+            else
+                map1.put(cs, 1);
+        }
+
+        for(char ct : t.toCharArray()){
+            if(map1.containsKey(ct)){
+                if(map1.get(ct) == 1)
+                    map1.remove(ct);
+                else
+                    map1.put(ct, map1.get(ct) - 1);
+            }
+            else{
+                return false;
+            }
+        }
+        return (map1.size() == 0);
+    }
+
     //    Group Anagrams
     //    Input: strs = ["eat","tea","tan","ate","nat","bat"]
     //    Output: [["bat"],["nat","tan"],["ate","eat","tea"]]

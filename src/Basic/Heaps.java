@@ -73,6 +73,34 @@ public class Heaps {
         return result;
     }
 
+    //    Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k,
+    //    return the k closest points to the origin (0, 0).
+    //    The distance between two points on the X-Y plane is the Euclidean distance (i.e., √(x1 - x2)2 + (y1 - y2)2).
+    public int[][] kClosest(int[][] points, int k) {
+        // Max-heap based on distance from origin
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+                (a, b) -> (b[0]*b[0] + b[1]*b[1]) - (a[0]*a[0] + a[1]*a[1])
+        );
+
+        for(int[] point : points) {
+            pq.offer(point);
+            if (pq.size() > k){
+                pq.poll();
+            }
+        }
+
+        int[][] result = new int[k][2];
+        int i = 0;
+        while (!pq.isEmpty()) {
+            int[] temp = pq.poll();
+            result[i][0] = temp[0];
+            result[i][1] = temp[1];
+            i++;
+        }
+
+        return result;
+    }
+
     //Implement Hashmap and Implement Priority Queue
     //Will be done once Tree is Completed
 
