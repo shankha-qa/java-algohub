@@ -152,4 +152,131 @@ public class DynamicProgramming {
 
         return  max;
     }
+
+    //Target sum subsets
+    public boolean findTargetSumSubset(int[] arr, int target) {
+        boolean[][] dp = new boolean[arr.length + 1][target + 1];
+        for(int i = 0; i < dp.length; i++){
+            for(int j = 0; j < dp[0].length; j++){
+                if (i == 0 & j == 0){
+                    dp[i][j] = true;
+                }
+                else if (i == 0){
+                    dp[i][j] = false;
+                }
+                else if (j == 0){
+                    dp[i][j] = true;
+                }
+                else {
+                    if(dp[i-1][j] ) {
+                        dp[i][j] = dp[i - 1][j];
+                    }
+                    else {
+                        int val = arr[i-1];
+                        if (val >= j){
+                            if(dp[i-1][j-val] ) {
+                                dp[i][j] = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return dp[arr.length][target];
+    }
+
+    //Best Time to Buy and Sell Stocks - One Transaction Allowed
+    public int findProfitFromStockTransaction(int[] price){
+        int leastSoFar = Integer.MAX_VALUE;
+        int profitIfSoldToday = 0;
+        int overallProfit = 0;
+
+        for (int i = 0; i <= price.length - 1; i ++){
+            leastSoFar = Math.min(leastSoFar, price[i]);
+            profitIfSoldToday = price[i] - leastSoFar;
+            overallProfit = Math.max(profitIfSoldToday, overallProfit);
+        }
+        return overallProfit;
+    }
+
+    //Best Time to Buy and Sell Stocks - Multiple Transactions Allowed. No BBSS
+    public int findProfitFromStockTransactionInMultiTransaction(int[] price){
+        int buyDate = 0;
+        int saleDate = 0;
+        int overallProfit = 0;
+
+        for (int i = 1; i <= price.length - 1; i ++){
+            if(price[i] > price[i-1]){
+                saleDate ++;
+            }
+            else{
+                int profit = price[saleDate] - price[buyDate];
+                overallProfit += profit;
+                buyDate = i;
+                saleDate = i;
+            }
+        }
+        int profit = price[saleDate] - price[buyDate];
+        overallProfit += profit;
+
+        return overallProfit;
+    }
+
+    //Best Time to Buy and Sell Stocks - Multiple Transactions Allowed. With transaction fee. No BBSS
+    public int findProfitFromStockTransactionInMultiTransactionWithFee(int[] price, int fee){
+        int obsp = -price[0];
+        int ossp = 0;
+
+        for (int i = 1; i < price.length; i++){
+            int nbsp = 0;
+            int nssp = 0;
+
+            if (ossp - price[i] > obsp)
+                nbsp = ossp - price[i];
+            else
+                nbsp = obsp;
+
+            if (obsp + price[i] - fee > ossp)
+                nssp = obsp + price[i] - fee;
+            else
+                nssp = ossp;
+
+            obsp = nbsp;
+            ossp = nssp;
+        }
+        return ossp;
+    }
+
+    //Best Time to Buy and Sell Stocks - Multiple Transactions Allowed. With Cooldown. No BBSS
+    public int findProfitFromStockTransactionInMultiTransactionWithCooldown(int[] price, int cooldown){
+        int obsp = -price[0];
+        int ossp = 0;
+        int ocsp = 0;
+
+        for (int i = 1; i < price.length; i++){
+            int nbsp = 0;
+            int nssp = 0;
+            int ncsp = 0;
+
+            if (ocsp - price[i] > obsp)
+                nbsp = ocsp - price[i];
+            else
+                nbsp = obsp;
+
+            if (obsp + price[i] > ossp)
+                nssp = obsp + price[i];
+            else
+                nssp = ossp;
+
+            if( ossp > ocsp)
+                ncsp = ossp;
+            else
+                ncsp = ocsp;
+
+            obsp = nbsp;
+            ossp = nssp;
+            ocsp = ncsp;
+        }
+        return ossp;
+    }
 }

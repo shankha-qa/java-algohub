@@ -430,4 +430,48 @@ public class Graph {
         return timeCount;
     }
 
+    public boolean exist(char[][] board, String word) {
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[0].length; c++) {
+                if (getWord(board, r, c, "", word, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean getWord(char[][] board, int r, int c, String psf,
+                           String word, boolean[][] visited) {
+
+        // boundary + visited check
+        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length || visited[r][c]) {
+            return false;
+        }
+
+        psf = psf + board[r][c];
+
+        // prefix mismatch check
+        if (!word.startsWith(psf)) {
+            return false;
+        }
+
+        // word found
+        if (psf.equals(word)) {
+            return true;
+        }
+
+        visited[r][c] = true;
+
+        if (getWord(board, r + 1, c, psf, word, visited)) return true;
+        if (getWord(board, r - 1, c, psf, word, visited)) return true;
+        if (getWord(board, r, c + 1, psf, word, visited)) return true;
+        if (getWord(board, r, c - 1, psf, word, visited)) return true;
+
+        visited[r][c] = false; // backtrack
+        return false;
+    }
+
 }

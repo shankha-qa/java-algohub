@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Miscellaneous {
 
-    //Faulty Keyboard - When an user types something, it appears once or more than once. Name: Shan; Types : SSShaann
+    // Faulty Keyboard - When an user types something, it appears once or more than once. Name: Shan; Types : SSShaann
     // Check whether from the typed word we can configure the intended one
     public static boolean checkFaultyKeyboard(String intended, String typed){
         if(intended.length() > typed.length()){
@@ -227,7 +227,7 @@ public class Miscellaneous {
         return list;
     }
 
-    //Find k closest element in an Array - Optimized approach -- logn and klogkis the TO
+    //Find k closest element in a sorted Array - Optimized approach -- logn and klogkis the TO
     public static ArrayList<Integer> findKClosestElements2(int[] arr, int k, int reference) {
         ArrayList<Integer> list = new ArrayList<>();
         int low = 0;
@@ -262,7 +262,7 @@ public class Miscellaneous {
             k--;
         }
 
-        while ( k> 0 && left > 0){
+        while ( k > 0 && left > 0){
             list.add(arr[left]);
             left --;
             k--;
@@ -276,7 +276,5 @@ public class Miscellaneous {
         Collections.reverse(list);
         return list;
     }
-
-
 
 }

@@ -246,6 +246,17 @@ public class BinaryTrees {
         printAllLeafPathFromANode(node.right, path + node.data + "");
     }
 
+    //Check if both the trees are same
+    public boolean isSameTree(Node p, Node q) {
+        if (p == null || q == null) {
+            return p == q;
+        }
+        if (p.data != q.data) {
+            return false;
+        }
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+    }
+
     //Print All leaves path from node within a certain range
     public static void printlLeafPathFromANodeBetweenRange(Node node, int sum, String path, int lo, int hi) {
         if(node == null) {
