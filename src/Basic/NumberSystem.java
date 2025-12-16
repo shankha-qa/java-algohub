@@ -4,15 +4,27 @@ public class NumberSystem {
 
     // Change from any base to any base for a given number
     public long baseChange(long number, int sourceBase, int destinationBase) {
-        double resultantNumber = 0;
-        int powerCounter = 0;
-        while(number != 0) {
-            long lastDigit = number % destinationBase;
-            resultantNumber += lastDigit * Math.pow(sourceBase, powerCounter);
-            number = number / destinationBase;
-            powerCounter ++;
+        // Step 1: source → decimal
+        long decimal = 0;
+        long power = 0;
+        while (number != 0) {
+            long digit = number % sourceBase;
+            decimal = (long) (decimal + digit * Math.pow(sourceBase, power));
+            power ++;
+            number = number / sourceBase;
         }
-        return (long)resultantNumber;
+
+        // Step 2: decimal → destination
+        long result = 0;
+        power = 1;
+        while (decimal != 0) {
+            long digit = decimal % destinationBase;
+            result = (long) (result + digit * Math.pow(destinationBase, power));
+            power *= 10;
+            decimal /= destinationBase;
+        }
+
+        return result;
     }
 
     // Find frequency of a digit in a number
@@ -71,18 +83,15 @@ public class NumberSystem {
 
     }
 
-//    Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
-//
-//    The algorithm for myAtoi(string s) is as follows:
-//
-//    Whitespace: Ignore any leading whitespace (" ").
-//    Signedness: Determine the sign by checking if the next character is '-' or '+', assuming positivity if neither present.
-//    Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the
-//    string is reached. If no digits were read, then the result is 0.
-//    Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain
-//    in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should
-//    be rounded to 231 - 1.
-
+    /* Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer.
+    The algorithm for myAtoi(string s) is as follows:
+        1)Whitespace: Ignore any leading whitespace (" ").
+        2)Signedness: Determine the sign by checking if the next character is '-' or '+', assuming positivity if neither present.
+        3)Conversion: Read the integer by skipping leading zeros until a non-digit character is encountered or the end of the
+        string is reached. If no digits were read, then the result is 0.
+        4)Rounding: If the integer is out of the 32-bit signed integer range [-231, 231 - 1], then round the integer to remain
+        in the range. Specifically, integers less than -231 should be rounded to -231, and integers greater than 231 - 1 should
+        be rounded to 231 - 1.     */
     public int convertStringToInt(String s) {
         s = s.trim();
         if (s.isEmpty())

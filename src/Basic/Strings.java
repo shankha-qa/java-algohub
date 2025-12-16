@@ -10,9 +10,9 @@ public class Strings {
     // Print all the substrings - Brute force
     public void printSubstrings(String str) {
         String subString = "";
-        for(int i = 0; i < str.length(); i++) {
-            for(int j = i; j <= str.length(); j++) {
-                subString = str.substring(i,j);
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i; j <= str.length(); j++) {
+                subString = str.substring(i, j);
                 System.out.println(subString);
             }
         }
@@ -25,10 +25,9 @@ public class Strings {
 
         while (low < high) {
             if (str.charAt(low) == str.charAt(high)) {
-                low ++;
-                high --;
-            }
-            else {
+                low++;
+                high--;
+            } else {
                 return false;
             }
         }
@@ -45,17 +44,14 @@ public class Strings {
             char leftChar = s.charAt(left);
             char rightChar = s.charAt(right);
             if (!isChar(leftChar)) {
-                left ++;
-            }
-            else if (!isChar(rightChar)) {
-                right --;
-            }
-            else {
+                left++;
+            } else if (!isChar(rightChar)) {
+                right--;
+            } else {
                 if (getLower(leftChar) == getLower(rightChar)) {
-                    left ++;
-                    right --;
-                }
-                else {
+                    left++;
+                    right--;
+                } else {
                     return false;
                 }
             }
@@ -63,20 +59,20 @@ public class Strings {
         return true;
     }
 
-    public char getLower(char ch){
+    public char getLower(char ch) {
         return Character.toLowerCase(ch);
     }
 
-    public boolean isChar(char ch){
+    public boolean isChar(char ch) {
         return Character.isLetterOrDigit(ch);
     }
 
     // Print all the substrings, which are palindromes
     public void printPalindromeSubstrings(String str) {
         String subString = "";
-        for(int i = 0; i < str.length(); i++) {
-            for(int j = i + 1; j <= str.length(); j++) {
-                subString = str.substring(i,j);
+        for (int i = 0; i < str.length(); i++) {
+            for (int j = i; j <= str.length(); j++) {
+                subString = str.substring(i, j);
                 if (isPalindrome(subString)) {
                     System.out.println(subString);
                 }
@@ -87,10 +83,10 @@ public class Strings {
     // Compress String without count
     public String compressStringWithoutCount(String str) {
         String result = str.charAt(0) + "";
-        for(int i = 1; i <= str.length() - 1; i++) {
+        for (int i = 1; i <= str.length() - 1; i++) {
             char curr = str.charAt(i);
             char prev = str.charAt(i - 1);
-            if(curr != prev) {
+            if (curr != prev) {
                 result = result + " " + curr;
             }
         }
@@ -101,18 +97,17 @@ public class Strings {
     public String compressStringWithCount(String str) {
         String result = str.charAt(0) + "";
         int count = 1;
-        for(int i = 1; i <= str.length() - 1; i++) {
+        for (int i = 1; i <= str.length() - 1; i++) {
             char curr = str.charAt(i);
             char prev = str.charAt(i - 1);
-            if(curr != prev) {
+            if (curr != prev) {
                 if (count > 1) {
                     result = result + " " + count;
                 }
-                result =  result + " " + curr;
+                result = result + " " + curr;
                 count = 1;
-            }
-            else {
-                count ++;
+            } else {
+                count++;
             }
         }
         return result;
@@ -124,12 +119,12 @@ public class Strings {
         for (int i = 0; i <= sb.length() - 1; i++) {
             char ch = sb.charAt(i);
             if (ch >= 'a' && ch <= 'z') {
-                char uch = (char)('A' - 'a' + ch);
-                sb.setCharAt(i,uch);
+                char uch = (char) ('A' - 'a' + ch);
+                sb.setCharAt(i, uch);
             }
             if (ch >= 'A' && ch <= 'Z') {
-                char lch = (char)('a' - 'A' + ch);
-                sb.setCharAt(i,lch);
+                char lch = (char) ('a' - 'A' + ch);
+                sb.setCharAt(i, lch);
             }
         }
         return sb.toString();
@@ -141,15 +136,15 @@ public class Strings {
 
         for (int i = 1; i <= str.length() - 1; i++) {
             char curr = str.charAt(i);
-            char prev = str.charAt(i-1);
-            result = result + (curr -  prev);
+            char prev = str.charAt(i - 1);
+            result = result + (curr - prev);
             result = result + curr;
         }
         return result;
     }
 
     //Longest Substring without Repeating characters
-    public static int longestSubstringWithNonRepeatingCharacters(String str){
+    public static int longestSubstringWithNonRepeatingCharacters(String str) {
         int maxLen = 0;
         int currLen;
 
@@ -162,7 +157,7 @@ public class Strings {
             char chToAcquire = str.charAt(i);
 
             //duplicacy and release
-            while(set[chToAcquire] == true) {
+            while (set[chToAcquire] == true) {
                 j++;
                 char chToRelease = str.charAt(j);
                 set[chToRelease] = false;
@@ -199,21 +194,20 @@ public class Strings {
     //Valid anagrams ?
     public boolean isAnagram(String s, String t) {
         HashMap<Character, Integer> map1 = new HashMap<>();
-        for(char cs : s.toCharArray()){
-            if(map1.containsKey(cs))
+        for (char cs : s.toCharArray()) {
+            if (map1.containsKey(cs))
                 map1.put(cs, map1.get(cs) + 1);
             else
                 map1.put(cs, 1);
         }
 
-        for(char ct : t.toCharArray()){
-            if(map1.containsKey(ct)){
-                if(map1.get(ct) == 1)
+        for (char ct : t.toCharArray()) {
+            if (map1.containsKey(ct)) {
+                if (map1.get(ct) == 1)
                     map1.remove(ct);
                 else
                     map1.put(ct, map1.get(ct) - 1);
-            }
-            else{
+            } else {
                 return false;
             }
         }
@@ -226,16 +220,15 @@ public class Strings {
     public List<List<String>> groupAnagrams(String[] strs) {
         HashMap<String, List<String>> map = new HashMap<>();
 
-        for(String s : strs) {
+        for (String s : strs) {
             char[] charArray = s.toCharArray();
             Arrays.sort(charArray);
             String sortedS = new String(charArray);
 
-            if(!map.containsKey(sortedS)) {
+            if (!map.containsKey(sortedS)) {
                 map.put(sortedS, new ArrayList<>());
                 map.get(sortedS).add(s);
-            }
-            else {
+            } else {
                 map.get(sortedS).add(s);
             }
 
@@ -248,65 +241,58 @@ public class Strings {
     //    empty string "".
     public String minWindow(String s, String t) {
         String ans = "";
+        // Create freq map for t
         HashMap<Character, Integer> map2 = new HashMap<>();
-        for (int i = 0; i < t.length(); i++) {
-            char ch2 = t.charAt(i);
-            if (map2.containsKey(ch2))
-                map2.put(ch2, map2.get(ch2) + 1);
-            else
-                map2.put(ch2, 1);
+        for (char ch : t.toCharArray()) {
+            map2.put(ch, map2.getOrDefault(ch, 0) + 1);
         }
 
+        //freq map for s
+        HashMap<Character, Integer> map1 = new HashMap<>();
+
+        int i = -1;
+        int j = -1;
         int matchCount = 0;
         int desiredMatchCount = t.length();
 
-        HashMap<Character, Integer> map1 = new HashMap<>();
-        int i = -1;
-        int j = -1;
-
-        while(true){
-
-            boolean f1 = false;
-            boolean f2 = false;
-
-            //Acquire
-            while(i < s.length() - 1 && matchCount < desiredMatchCount) {
+        while (true) {
+            boolean a = false;
+            boolean b = false;
+            // acquire
+            while (i < s.length() - 1 && matchCount < desiredMatchCount) {
                 i++;
-                char chToAquire = s.charAt(i);
-                if (map1.containsKey(chToAquire))
-                    map1.put(chToAquire, map1.get(chToAquire) + 1);
-                else
-                    map1.put(chToAquire, 1);
-
-                if(map1.getOrDefault(chToAquire, 0) <= (map2.getOrDefault(chToAquire, 0)))
+                char charToAquire = s.charAt(i);
+                map1.put(charToAquire, map1.getOrDefault(charToAquire, 0) + 1);
+                if (map1.get(charToAquire) <= map2.getOrDefault(charToAquire, 0))
                     matchCount++;
 
-                f1 = true;
+                a = true;
             }
 
-            // Collect Answer and Release
-            while(j < i && matchCount == desiredMatchCount) {
-                String pAns = s.substring(j+1, i+1);
-                if (ans.length() == 0 || pAns.length() < ans.length())
+            // release
+            while (j < i && matchCount == desiredMatchCount) {
+                //Collect Result
+                String pAns = s.substring(j + 1, i + 1);
+                if (ans.isEmpty() || pAns.length() < ans.length())
                     ans = pAns;
 
+                //Release
                 j++;
-                char chToRelease = s.charAt(j);
-                if(map1.get(chToRelease) == 1)
-                    map1.remove(chToRelease);
+                char charToRelease = s.charAt(j);
+                if(map1.get(charToRelease) == 1)
+                    map1.remove(charToRelease);
                 else
-                    map1.put(chToRelease, map1.get(chToRelease) - 1);
+                    map1.put(charToRelease, map1.get(charToRelease) - 1);
 
-                if(map1.getOrDefault(chToRelease, 0) < (map2.getOrDefault(chToRelease, 0)))
+                if (map1.getOrDefault(charToRelease, 0) < map2.getOrDefault(charToRelease, 0))
                     matchCount--;
 
-                f2 = true;
+                b = true;
             }
 
-            if(!f1 && !f2)
+            if (!a && !b)
                 break;
         }
-
         return ans;
     }
 

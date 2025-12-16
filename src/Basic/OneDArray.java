@@ -8,15 +8,11 @@ public class OneDArray {
 
     //Span of an Array
     public int getSpanOfAnArray(int[] array) {
-        int minNumber = array[0];
         int maxNumber = array[0];
+        int minNumber = array[0];
         for (int element : array) {
-            if (element < minNumber) {
-                minNumber = element;
-            }
-            if (element > maxNumber) {
-                maxNumber = element;
-            }
+            maxNumber = Math.max(element, maxNumber);
+            minNumber = Math.min(element, minNumber);
         }
         int span = maxNumber - minNumber;
         return span;
@@ -228,22 +224,27 @@ public class OneDArray {
         }
     }
 
-    //Kadane's Algorithm for Maximum Sum Subarray of continuous elements
+    //Kadane's Algorithm for Maximum Sum Subarray of continuous elements, also print the indexes
     public static int findMaxSubArraySum(int[] arr) {
         int currentSum = arr[0];
         int overallSum = arr[0];
+        int tempStart = -1, start = -1, end = -1;
         for (int i = 1; i <= arr.length - 1; i++ ) {
             if(currentSum > 0){
                 currentSum += arr[i];
             }
             else {
                 currentSum = arr[i];
+                tempStart = i;
             }
 
             if (currentSum >= overallSum) {
                 overallSum = currentSum;
+                start = tempStart;
+                end = i;
             }
         }
+        System.out.println("Start Index : " + start + " and End Index : " + end);
         return overallSum;
     }
 
@@ -275,7 +276,7 @@ public class OneDArray {
     }
 
     //3 Sums
-    public List<List<Integer>> threeSum(int[] nums, int target) {
+    public static List<List<Integer>> threeSum(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for(int i = 0; i <= nums.length - 3; i++){
@@ -307,7 +308,7 @@ public class OneDArray {
     }
 
     //3 Sums - variation. Where sum is closest to the target, return the closest sum
-    public int threeSumClosest(int[] nums, int target) {
+    public static int threeSumClosest(int[] nums, int target) {
         Arrays.sort(nums);
         int closest = nums[0] + nums[1] + nums[2];
         for(int i = 0; i <= nums.length - 2; i++){
@@ -334,7 +335,7 @@ public class OneDArray {
     }
 
     //4 sums
-    public List<List<Integer>> fourSum(int[] nums, int target) {
+    public static List<List<Integer>> fourSum(int[] nums, int target) {
         Arrays.sort(nums);
         List<List<Integer>> result = new ArrayList<>();
         for(int i = 0; i <= nums.length -4; i++){

@@ -143,10 +143,10 @@ public class Miscellaneous {
 
     // Minimum Arrows required to burst some ballons
     public static int findArrowNumbers(int[][] baloons) {
-        Arrays.sort(baloons,(a,b) -> Integer.compare(a[1],b[1]));
         if (baloons.length == 0)
             return 0;
 
+        Arrays.sort(baloons,(a,b) -> Integer.compare(a[1],b[1]));
         int arrows = 1;
         int end = baloons[0][1];
 

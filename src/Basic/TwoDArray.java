@@ -39,7 +39,7 @@ public class TwoDArray {
 
         int[][] result = new int[mat1.length][mat2[0].length];
 
-        if (mat1[0].length != mat1.length){
+        if (mat1[0].length != mat2.length){
             System.out.print("Cannot multiply");
             return result;
         }
