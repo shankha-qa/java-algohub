@@ -23,14 +23,16 @@ public class Heaps {
     // Sort Print an Array which is already sorted by K places
     public void sortKSortedArray(int[] arr, int k) {
         PriorityQueue<Integer> pq = new PriorityQueue<>();
-        for(int i = 0; i <= k ; i++) {
+        // Add first k+1 elements to the heap
+        for (int i = 0; i <= k && i < arr.length; i++) {
             pq.add(arr[i]);
         }
-
+        // Process rest of the array
         for (int i = k + 1; i < arr.length; i++) {
             System.out.println(pq.remove());
             pq.add(arr[i]);
         }
+        // Print remaining elements
         while (!pq.isEmpty()) {
             System.out.println(pq.remove());
         }
@@ -64,6 +66,7 @@ public class Heaps {
             Pair p = pq.remove();
             result.add(p.val);
 
+            p.li = p.li;
             p.di = p.di + 1;
             if(lists.get(p.li).size() > p.di) {
                 p.val = lists.get(p.li).get(p.di);
@@ -102,6 +105,6 @@ public class Heaps {
     }
 
     //Implement Hashmap and Implement Priority Queue
-    //Will be done once Tree is Completed
+
 
 }
