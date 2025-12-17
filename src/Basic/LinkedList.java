@@ -6,6 +6,13 @@ public class LinkedList {
         Node next;
         int data;
         Node random;
+
+        public Node(int data) {
+            this.data = data;
+        }
+
+        public Node() {
+        }
     }
 
     public static class LL {
@@ -301,7 +308,7 @@ public class LinkedList {
         public int findMidOfLinkedList(){
             Node slow =  head;
             Node fast = head;
-            while(fast.next != null && fast.next.next != null) {
+            while(fast != null && fast.next != null) {
                 slow = slow.next;
                 fast = fast.next.next;
             }
@@ -320,11 +327,11 @@ public class LinkedList {
             while (fast != null && fast.next != null) {
                 slow = slow.next;
                 fast = fast.next.next;
+                if (slow == fast) {
+                    return true;
+                }
             }
 
-            if (slow == fast) {
-                return true;
-            }
             return false;
         }
 
@@ -472,15 +479,16 @@ public class LinkedList {
                 return true;
             }
             boolean rres = palindromeChecker(right.next);
-            if( rres == false) {
-                return false;
-            }
-            else if (pleft.data != right.data) {
+            if(!rres) {
                 return false;
             }
             else {
-                pleft = pleft.next;
-                return true;
+                if (pleft.data != right.data) {
+                    return false;
+                } else {
+                    pleft = pleft.next;
+                    return true;
+                }
             }
         }
 
@@ -492,7 +500,7 @@ public class LinkedList {
         }
 
         public void foldLinkedListHelper(Node right, int floor) {
-            while(right == null) {
+            if(right == null) {
                 return;
             }
             foldLinkedListHelper(right.next, floor + 1);
@@ -502,8 +510,7 @@ public class LinkedList {
                 fleft = right.next;
             }
             else if (floor == size / 2) {
-                tail = right;
-                tail.next = null;
+                right.next = null;
             }
         }
 
@@ -536,6 +543,44 @@ public class LinkedList {
                 result.addFirst(oc);
             }
             return result;
+        }
+
+        public Node addTwoNumbers(Node l1, Node l2) {
+            Node l3 = new Node(0);
+            Node head = l3;
+            int carry = 0;
+            while(l1 != null && l2 != null) {
+                int val = l1.data + l2.data + carry;
+                int digit = val % 10;
+                carry = val / 10;
+                l3.next = new Node(digit);
+                l3 = l3.next;
+
+                l1 = l1.next;
+                l2 = l2.next;
+            }
+            while(l1 != null) {
+                int val = l1.data + carry;
+                int digit = val % 10;
+                carry = val / 10;
+                l3.next = new Node(digit);
+                l3 = l3.next;
+
+                l1 = l1.next;
+            }
+            while(l2 != null) {
+                int val = l2.data + carry;
+                int digit = val % 10;
+                carry = val / 10;
+                l3.next = new Node(digit);
+                l3 = l3.next;
+
+                l2 = l2.next;
+            }
+            if (carry > 0)
+                l3.next = new Node(carry);
+
+            return head.next;
         }
 
         //Find Intersection point of 2 Linked Lists
