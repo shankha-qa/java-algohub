@@ -247,6 +247,24 @@ public class DynamicProgramming {
         return ossp;
     }
 
+    public int findProfitFromStockTransactionInMultiTransactionWithFee2(int[] prices, int fee){
+        int buy = -prices[0];
+        int sell = 0;
+
+        for (int i = 1; i < prices.length; i++){
+            // update buy
+            if (sell - prices[i] > buy) {
+                buy = sell - prices[i];
+            }
+
+            // update sell
+            if (buy + prices[i] - fee > sell) {
+                sell = buy + prices[i] - fee;
+            }
+        }
+        return sell;
+    }
+
     //Best Time to Buy and Sell Stocks - Multiple Transactions Allowed. With Cooldown. No BBSS
     public int findProfitFromStockTransactionInMultiTransactionWithCooldown(int[] price, int cooldown){
         int obsp = -price[0];
@@ -278,5 +296,45 @@ public class DynamicProgramming {
             ocsp = ncsp;
         }
         return ossp;
+    }
+
+    public int findProfitFromStockTransactionInMultiTransactionWithCooldown2(int[] price, int cooldown) {
+        if (price == null || price.length == 0) {
+            return 0;
+        }
+
+        int buy = -price[0];
+        int sell = 0;
+
+        // To track sell values for cooldown
+        int[] sellHistory = new int[cooldown + 1];
+        for (int i = 0; i <= cooldown; i++) {
+            sellHistory[i] = 0;
+        }
+
+        for (int i = 1; i < price.length; i++) {
+
+            int newSell = sell;
+            if (buy + price[i] > sell) {
+                newSell = buy + price[i];
+            }
+
+            int allowedSell = sellHistory[0];
+            int newBuy = buy;
+            if (allowedSell - price[i] > buy) {
+                newBuy = allowedSell - price[i];
+            }
+
+            // shift sell history
+            for (int j = 0; j < cooldown; j++) {
+                sellHistory[j] = sellHistory[j + 1];
+            }
+            sellHistory[cooldown] = sell;
+
+            sell = newSell;
+            buy = newBuy;
+        }
+
+        return sell;
     }
 }
