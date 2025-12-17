@@ -137,7 +137,7 @@ public class BinaryTrees {
         }
     }
 
-    //FInd particular data
+    //Find particular data
     public static boolean find (Node node, int target) {
         if (node == null) {
             return false;
@@ -246,17 +246,6 @@ public class BinaryTrees {
         printAllLeafPathFromANode(node.right, path + node.data + "");
     }
 
-    //Check if both the trees are same
-    public boolean isSameTree(Node p, Node q) {
-        if (p == null || q == null) {
-            return p == q;
-        }
-        if (p.data != q.data) {
-            return false;
-        }
-        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
-    }
-
     //Print All leaves path from node within a certain range
     public static void printlLeafPathFromANodeBetweenRange(Node node, int sum, String path, int lo, int hi) {
         if(node == null) {
@@ -271,6 +260,17 @@ public class BinaryTrees {
         }
         printlLeafPathFromANodeBetweenRange(node.left, sum + node.data, path + node.data + "", lo, hi);
         printlLeafPathFromANodeBetweenRange(node.right, sum + node.data, path + node.data + "", lo, hi);
+    }
+
+    //Check if both the trees are same
+    public boolean isSameTree(Node p, Node q) {
+        if (p == null || q == null) {
+            return p == q;
+        }
+        if (p.data != q.data) {
+            return false;
+        }
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 
     //Create Left cloned Tree
@@ -323,8 +323,8 @@ public class BinaryTrees {
         if(node.left == null && node.right == null) {
             return null;
         }
-        Node nlr = removeLeaves(node.right);
-        Node nrr = removeLeaves(node.left);
+        Node nlr = removeLeaves(node.left);
+        Node nrr = removeLeaves(node.right);
         node.left = nlr;
         node.right = nrr;
         return node;
@@ -355,6 +355,7 @@ public class BinaryTrees {
             DiaPair dp = new DiaPair();
             dp.ht = -1;
             dp.dia = 0;
+            return dp;
         }
         DiaPair lp = calculateDiameter2(node.left);
         DiaPair rp = calculateDiameter2(node.right);
@@ -394,6 +395,7 @@ public class BinaryTrees {
             baseBSTPair.isBST =  true;
             baseBSTPair.max = Integer.MIN_VALUE;
             baseBSTPair.min = Integer.MAX_VALUE;
+            return baseBSTPair;
         }
 
         BSTPair leftBST = isBST(node.left);
@@ -419,13 +421,14 @@ public class BinaryTrees {
             BalancedPair baseBalancedPair = new BalancedPair();
             baseBalancedPair.isBalanced = true;
             baseBalancedPair.ht = 0;
+            return baseBalancedPair;
         }
 
         BalancedPair leftBalanced = isBalanced(node.left);
         BalancedPair rightBalanced = isBalanced(node.right);
 
         BalancedPair bp = new BalancedPair();
-        bp.isBalanced =  leftBalanced.isBalanced && rightBalanced.isBalanced &&
+        bp.isBalanced = leftBalanced.isBalanced && rightBalanced.isBalanced &&
                 ( Math.abs(leftBalanced.ht - rightBalanced.ht) ) <= 1;
         bp.ht = Math.max(leftBalanced.ht, rightBalanced.ht) + 1;
 
@@ -449,7 +452,7 @@ public class BinaryTrees {
             baseBSTPair.min = Integer.MAX_VALUE;
             baseBSTPair.largestBSTRoot = node;
             baseBSTPair.largestBSTSize =  0;
-
+            return baseBSTPair;
         }
 
         LargestBSTPair isLeftBST = isLargestBST(node.left);

@@ -289,7 +289,7 @@ public class GenericTrees {
             return false;
         }
         for (int i = 0; i < node1.children.size(); i++) {
-            int j = node1.children.size() - 1 - i;
+            int j = node2.children.size() - 1 - i;
             Node child1 = node1.children.get(i);
             Node child2 = node2.children.get(j);
             if (!areMirror(child1, child2)) {
@@ -320,6 +320,9 @@ public class GenericTrees {
         else if( state == 1) {
             successor = node;
             state = 2;
+        }
+        else if( state == 2) {
+            return;
         }
 
         for(Node child: node.children) {
