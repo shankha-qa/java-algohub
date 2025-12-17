@@ -265,6 +265,7 @@ public class LinkedList {
 
             while (curr != null) {
                 Node next = curr.next;
+
                 curr.next = prev;
 
                 prev = curr;
@@ -606,6 +607,7 @@ public class LinkedList {
             }
             return t1;
         }
+
     }
 
     public static void copyLinkedList(Node head){
