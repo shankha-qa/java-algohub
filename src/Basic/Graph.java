@@ -115,7 +115,7 @@ public class Graph {
         return (comps.size() == 1);
     }
 
-    //Check in How many different combination can be found where pair of vertex can be created from groups which are seperate
+    //Check in How many different combination can be found where pair of vertex can be created from groups which are separate
     public static int findUniqueCombination(ArrayList<Edge>[] graph, int vtces){
         ArrayList<ArrayList<Integer>> comps = getConnectedComponents(graph, vtces);
         int count = 0;
@@ -133,8 +133,10 @@ public class Graph {
         boolean[][] visited = new boolean[ocean.length][ocean[0].length];
         for (int r = 0; r <= ocean.length - 1; r++) {
             for (int c = 0; c <= ocean[0].length - 1; c++) {
-                getConnectedLand(ocean, r, c, visited);
-                count++;
+                if (!visited[r][c] && ocean[r][c] == 0) {
+                    getConnectedLand(ocean, r, c, visited);
+                    count++;
+                }
             }
         }
         return count;
@@ -142,7 +144,7 @@ public class Graph {
 
     public static void getConnectedLand(int[][] ocean, int row, int col, boolean[][] visited) {
         if( row < 0 || col < 0 || row > ocean.length - 1 || col > ocean[0].length - 1 ||
-                !visited[row][col] || ocean[row][col] == 1) {
+                visited[row][col] || ocean[row][col] == 1) {
             return;
         }
 
@@ -151,6 +153,49 @@ public class Graph {
         getConnectedLand(ocean, row , col + 1, visited);
         getConnectedLand(ocean, row , col - 1, visited);
         getConnectedLand(ocean, row + 1, col, visited);
+    }
+
+    public boolean exist(char[][] board, String word) {
+        boolean[][] visited = new boolean[board.length][board[0].length];
+
+        for (int r = 0; r < board.length; r++) {
+            for (int c = 0; c < board[0].length; c++) {
+                // Start DFS only when first character matches
+                if (board[r][c] == word.charAt(0)) {
+                    if (search(board, r, c, 0, word, visited)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean search(char[][] board, int r, int c,
+                          int idx, String word, boolean[][] visited) {
+
+        // boundary + visited + mismatch check
+        if (r < 0 || c < 0 ||
+                r >= board.length || c >= board[0].length ||
+                visited[r][c] ||
+                board[r][c] != word.charAt(idx)) {
+            return false;
+        }
+
+        // word completely matched
+        if (idx == word.length() - 1) {
+            return true;
+        }
+
+        visited[r][c] = true;
+        boolean found =
+                search(board, r + 1, c, idx + 1, word, visited) ||
+                search(board, r - 1, c, idx + 1, word, visited) ||
+                search(board, r, c + 1, idx + 1, word, visited) ||
+                search(board, r, c - 1, idx + 1, word, visited);
+        visited[r][c] = false;
+
+        return found;
     }
 
     //BFS  --- Concept
@@ -262,6 +307,7 @@ public class Graph {
             //Work
             if(rem.time > providedTime)
                 break;
+
             count ++;
 
             //Add*
@@ -393,7 +439,7 @@ public class Graph {
 
         int timeCount = 0;
 
-        while(queue.size() > 0) {
+        while(!queue.isEmpty()) {
             int size =queue.size();
             timeCount ++;
             while(size > 0){
@@ -428,50 +474,6 @@ public class Graph {
         if (fresh != 0)
             return -1;
         return timeCount;
-    }
-
-    public boolean exist(char[][] board, String word) {
-        boolean[][] visited = new boolean[board.length][board[0].length];
-
-        for (int r = 0; r < board.length; r++) {
-            for (int c = 0; c < board[0].length; c++) {
-                if (getWord(board, r, c, "", word, visited)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean getWord(char[][] board, int r, int c, String psf,
-                           String word, boolean[][] visited) {
-
-        // boundary + visited check
-        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length || visited[r][c]) {
-            return false;
-        }
-
-        psf = psf + board[r][c];
-
-        // prefix mismatch check
-        if (!word.startsWith(psf)) {
-            return false;
-        }
-
-        // word found
-        if (psf.equals(word)) {
-            return true;
-        }
-
-        visited[r][c] = true;
-
-        if (getWord(board, r + 1, c, psf, word, visited)) return true;
-        if (getWord(board, r - 1, c, psf, word, visited)) return true;
-        if (getWord(board, r, c + 1, psf, word, visited)) return true;
-        if (getWord(board, r, c - 1, psf, word, visited)) return true;
-
-        visited[r][c] = false; // backtrack
-        return false;
     }
 
 }
