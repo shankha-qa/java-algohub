@@ -211,7 +211,7 @@ public class Strings {
                 return false;
             }
         }
-        return (map1.size() == 0);
+        return (map1.isEmpty());
     }
 
     //    Group Anagrams
