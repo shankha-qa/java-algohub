@@ -37,12 +37,12 @@ public class TwoDArray {
     //Matrix Multiplication
     public int[][] multiply(int[][] mat1, int[][] mat2) {
 
-        int[][] result = new int[mat1.length][mat2[0].length];
-
         if (mat1[0].length != mat2.length){
             System.out.print("Cannot multiply");
-            return result;
+            return new int[0][0];
         }
+
+        int[][] result = new int[mat1.length][mat2[0].length];
 
         for(int i = 0 ; i < result.length; i++){
             for(int j = 0 ; j < result[0].length; j++){
