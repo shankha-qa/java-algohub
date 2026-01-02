@@ -155,6 +155,7 @@ public class Graph {
         getConnectedLand(ocean, row + 1, col, visited);
     }
 
+    //Check presence of Words in a matrix
     public boolean exist(char[][] board, String word) {
         boolean[][] visited = new boolean[board.length][board[0].length];
 
@@ -276,6 +277,7 @@ public class Graph {
         return false;
     }
 
+    // Find time to sickness spread
     public static class SickPair{
         int people;
         int time;
@@ -307,7 +309,6 @@ public class Graph {
             //Work
             if(rem.time > providedTime)
                 break;
-
             count ++;
 
             //Add*
@@ -319,6 +320,71 @@ public class Graph {
         }
         System.out.println("Sick people : " + count);
 
+    }
+
+    //O - None, 1- Fresh Orange. 2- Rotten Orange. Find time to rot orranges.
+    static class OPair {
+        int r;
+        int c;
+
+        public OPair(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    public int findTimeToRotAllOranges(int[][] grid){
+        ArrayDeque<OPair> queue = new ArrayDeque<>();
+        int fresh = 0;
+        for(int i = 0; i < grid.length; i++){
+            for(int j = 0; j < grid[0].length; j++){
+                if ( grid[i][j] == 2 )
+                    queue.add(new OPair(i,j));
+                else if ( grid[i][j] == 1 )
+                    fresh ++;
+            }
+        }
+        if(fresh == 0)
+            return 0;
+
+        int timeCount = 0;
+
+        while(!queue.isEmpty()) {
+            int size =queue.size();
+            timeCount ++;
+            while(size > 0){
+                //remove
+                OPair rem = queue.remove();
+
+                //mark *
+                if(rem.r - 1 >= 0 && rem.r - 1 < grid.length && grid[rem.r - 1][rem.c] == 1) {
+                    grid[rem.r - 1][rem.c] = 2;
+                    queue.add(new OPair(rem.r - 1, rem.c));
+                    fresh--;
+                }
+                if(rem.c - 1 >= 0 && rem.c - 1 < grid[0].length && grid[rem.r][rem.c - 1] == 1) {
+                    grid[rem.r][rem.c - 1] = 2;
+                    queue.add(new OPair(rem.r, rem.c - 1));
+                    fresh--;
+                }
+                if(rem.r + 1 >= 0 && rem.r + 1 < grid.length && grid[rem.r + 1][rem.c] == 1) {
+                    grid[rem.r + 1][rem.c] = 2;
+                    queue.add(new OPair(rem.r + 1, rem.c));
+                    fresh--;
+                }
+                if(rem.c + 1 >= 0 && rem.c + 1 < grid[0].length && grid[rem.r][rem.c + 1] == 1) {
+                    grid[rem.r][rem.c + 1] = 2;
+                    queue.add(new OPair(rem.r, rem.c + 1));
+                    fresh--;
+                }
+
+                size --;
+            }
+        }
+        if (fresh != 0)
+            return -1;
+
+        return timeCount;
     }
 
     //BFS --Dijkstra's Algo --- Shortest weighted path  --- Concept
@@ -411,69 +477,4 @@ public class Graph {
             }
         }
     }
-
-    //O - None, 1- Fresh Orange. 2- Rotten Orange.
-    static class OPair {
-        int r;
-        int c;
-
-        public OPair(int r, int c) {
-            this.r = r;
-            this.c = c;
-        }
-    }
-
-    public int findTimeToRotAllOranges(int[][] grid){
-        ArrayDeque<OPair> queue = new ArrayDeque<>();
-        int fresh = 0;
-        for(int i = 0; i < grid.length; i++){
-            for(int j = 0; j < grid[0].length; j++){
-                if ( grid[i][j] == 2 )
-                    queue.add(new OPair(i,j));
-                else if ( grid[i][j] == 1 )
-                    fresh ++;
-            }
-        }
-        if(fresh == 0)
-            return 0;
-
-        int timeCount = 0;
-
-        while(!queue.isEmpty()) {
-            int size =queue.size();
-            timeCount ++;
-            while(size > 0){
-                //remove
-                OPair rem = queue.remove();
-
-                //mark *
-                if(rem.r - 1 >= 0 && rem.r - 1 < grid.length && grid[rem.r - 1][rem.c] == 1) {
-                    grid[rem.r - 1][rem.c] = 2;
-                    queue.add(new OPair(rem.r - 1, rem.c));
-                    fresh--;
-                }
-                if(rem.c - 1 >= 0 && rem.c - 1 < grid[0].length && grid[rem.r][rem.c - 1] == 1) {
-                    grid[rem.r][rem.c - 1] = 2;
-                    queue.add(new OPair(rem.r, rem.c - 1));
-                    fresh--;
-                }
-                if(rem.r + 1 >= 0 && rem.r + 1 < grid.length && grid[rem.r + 1][rem.c] == 1) {
-                    grid[rem.r + 1][rem.c] = 2;
-                    queue.add(new OPair(rem.r + 1, rem.c));
-                    fresh--;
-                }
-                if(rem.c + 1 >= 0 && rem.c + 1 < grid[0].length && grid[rem.r][rem.c + 1] == 1) {
-                    grid[rem.r][rem.c + 1] = 2;
-                    queue.add(new OPair(rem.r, rem.c + 1));
-                    fresh--;
-                }
-
-                size --;
-            }
-        }
-        if (fresh != 0)
-            return -1;
-        return timeCount;
-    }
-
 }
