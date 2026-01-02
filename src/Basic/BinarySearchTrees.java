@@ -161,19 +161,18 @@ public class BinarySearchTrees {
     }
 
     public static void printInRange(Node node, int lo, int hi) {
-        if(node == null) {
+        if (node == null) {
             return;
         }
-
-        if (node.data > lo && node.data > hi) {
-            printInRange(node.left, lo, hi);
-        }
-        else if (node.data < lo && node.data < hi) {
+        if (node.data < lo) {
             printInRange(node.right, lo, hi);
+        }
+        else if (node.data > hi) {
+            printInRange(node.left, lo, hi);
         }
         else {
             printInRange(node.left, lo, hi);
-            System.out.println(node.data + "\t");
+            System.out.println(node.data);
             printInRange(node.right, lo, hi);
         }
     }

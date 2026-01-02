@@ -310,11 +310,11 @@ public class GenericTrees {
     static int state = 0;
     public static void findPredecessorAndSuccessor (Node node, int target) {
         if( state == 0) {
-            if (node.data == target) {
-                state = 1;
+            if (node.data != target) {
+                predecessor = node;
             }
             else {
-                predecessor = node;
+                state = 1;
             }
         }
         else if( state == 1) {

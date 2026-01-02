@@ -235,15 +235,16 @@ public class BinaryTrees {
 
     //Print All leaves path from node
     public static void printAllLeafPathFromANode(Node node, String path) {
-        if(node == null) {
+        if (node == null) {
             return;
         }
+        path += node.data + " ";
         if (node.left == null && node.right == null) {
-            path = path + node.data + "";
-            System.out.println(path);
+            System.out.println(path.trim());
+            return;
         }
-        printAllLeafPathFromANode(node.left, path + node.data + "");
-        printAllLeafPathFromANode(node.right, path + node.data + "");
+        printAllLeafPathFromANode(node.left, path);
+        printAllLeafPathFromANode(node.right, path);
     }
 
     //Print All leaves path from node within a certain range
@@ -251,15 +252,15 @@ public class BinaryTrees {
         if(node == null) {
             return;
         }
+        path += node.data + " ";
+        sum += node.data;
         if (node.left == null && node.right == null) {
-            sum += node.data;
-            path = path + node.data + "";
             if (sum > lo && sum < hi) {
                 System.out.println(path);
             }
         }
-        printlLeafPathFromANodeBetweenRange(node.left, sum + node.data, path + node.data + "", lo, hi);
-        printlLeafPathFromANodeBetweenRange(node.right, sum + node.data, path + node.data + "", lo, hi);
+        printlLeafPathFromANodeBetweenRange(node.left, sum, path, lo, hi);
+        printlLeafPathFromANodeBetweenRange(node.right, sum, path, lo, hi);
     }
 
     //Check if both the trees are same
