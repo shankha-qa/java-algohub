@@ -150,7 +150,7 @@ public class LinkedList {
                 head = head.next;
                 temp.next = null;
 
-                size--;
+                size --;
                 return temp.data;
             }
         }
@@ -515,6 +515,16 @@ public class LinkedList {
             }
         }
 
+        //Add Two Linked Lists
+        public static LL addTwoLists(LL one, LL two) {
+            LL result = new LL();
+            int oc = addListHelper(one.head, one.size, two.head, two.size, result);
+            if (oc > 0) {
+                result.addFirst(oc);
+            }
+            return result;
+        }
+
         public static int addListHelper(Node one, int pv1, Node two, int pv2, LL result) {
             if(one == null && two == null) {
                 return 0;
@@ -536,16 +546,8 @@ public class LinkedList {
             return nc;
         }
 
-        //Add Two Linked Lists
-        public static LL addTwoLists(LL one, LL two) {
-            LL result = new LL();
-            int oc = addListHelper(one.head, one.size, two.head, two.size, result);
-            if (oc > 0) {
-                result.addFirst(oc);
-            }
-            return result;
-        }
 
+        //Add two numbers in the form of Linked List
         public Node addTwoNumbers(Node l1, Node l2) {
             Node l3 = new Node(0);
             Node head = l3;
