@@ -419,7 +419,7 @@ public class Stacks {
                 //people1 knows people2
                 st.push(people2);
             } else {
-                //people2 does not know people1
+                //people1 does not know people2
                 st.push(people1);
             }
         }

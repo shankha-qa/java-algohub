@@ -26,10 +26,12 @@ public class Miscellaneous {
         }
 
         while(j < typed.length()) {
-           if (intended.charAt(i-1) != typed.charAt(j)) {
-               return false;
-           }
-           j++;
+            if(intended.charAt(i-1) == typed.charAt(j) ){
+                j++;
+            }
+            else{
+                return false;
+            }
         }
 
         return (i == intended.length());
